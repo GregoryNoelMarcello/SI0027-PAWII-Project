@@ -6,45 +6,79 @@
 
 const express = require("express");
 const app = express();
-const PORT = 3000;
+const PORT = 4000;
 
 app.use(express.json());
 
 let mahasiswa = [
-  { id: 1, nama: "Andi", jurusan: "Sistem Informasi" },
-  { id: 2, nama: "Budi", jurusan: "Informatika" },
+  { id: 1, nama: "Andi", jurusan: "Sistem Informasi", status : "aktif" },
+  { id: 2, nama: "Budi", jurusan: "Informatika", status : "cuti" },
+  { id: 3, nama: "Rita", jurusan: "Manajemen", status : "cuti" },
+  { id: 4, nama: "Cindy", jurusan: "Elektro", status : "aktif" },
 ];
 
 // TODO 1: GET /mahasiswa -> kirim seluruh data sebagai JSON
 app.get("/mahasiswa", (req, res) => {
-  // lengkapi di sini
+  res.json(mahasiswa);
+});
+
+app.get("/mahasiswa/aktif", (req, res) => {
+  const aktifMahasiswa = mahasiswa.filter((m) => m.status === "aktif");
+  if(!data) return res.status(404).json({ message: 'Data tidak ditemukan' });
+  res.json(aktifMahasiswa);
 });
 
 // TODO 2: GET /mahasiswa/:id -> cari data berdasarkan id,
 // kirim 404 dengan { message: 'Data tidak ditemukan' } jika tidak ada
 app.get("/mahasiswa/:id", (req, res) => {
-  // lengkapi di sini
+  const { id } = req.params;
+  const mhs = mahasiswa.find((m) => m.id === parseInt(id));
+  if (!mhs) {
+    return res.status(404).json({ message: 'Data tidak ditemukan' });
+  }
+  res.json(mhs);
 });
 
 // TODO 3: POST /mahasiswa -> ambil { nama, jurusan } dari req.body,
 // buat objek baru dengan id = mahasiswa.length + 1, simpan ke array,
 // kirim response dengan status 201
 app.post("/mahasiswa", (req, res) => {
-  // lengkapi di sini
+  const { nama, jurusan } = req.body;
+  const newMahasiswa = {
+    id: mahasiswa.length + 1,
+    nama,
+    jurusan,
+    status
+  };
+  mahasiswa.push(newMahasiswa);
+  res.status(201).json(newMahasiswa);
 });
 
 // TODO 4: PUT /mahasiswa/:id -> cari index berdasarkan id,
 // jika tidak ditemukan kirim 404, jika ditemukan gabungkan data lama
 // dengan req.body lalu kirim data yang telah diperbarui
 app.put("/mahasiswa/:id", (req, res) => {
-  // lengkapi di sini
+  const { id } = req.params;
+  const index = mahasiswa.findIndex((m) => m.id === parseInt(id));
+  if (index === -1) {
+    return res.status(404).json({ message: 'Data tidak ditemukan' });
+  }
+  const { nama, jurusan } = req.body;
+  mahasiswa[index] = { ...mahasiswa[index], nama, jurusan };
+  res.json(mahasiswa[index]);
 });
 
 // TODO 5: DELETE /mahasiswa/:id -> cari index berdasarkan id,
 // jika tidak ditemukan kirim 404, jika ditemukan hapus dari array
 // dan kirim response dengan status 204
 app.delete("/mahasiswa/:id", (req, res) => {
-  // lengkapi di sini
+  const { id } = req.params;
+  const index = mahasiswa.findIndex((m) => m.id === parseInt(id));
+  if (index === -1) {
+    return res.status(404).json({ message: 'Data tidak ditemukan' });
+  }
+  mahasiswa.splice(index, 1);
+  res.status(204).end();
 });
 
 app.listen(PORT, () => {
