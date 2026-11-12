@@ -9,6 +9,8 @@ function PageHeader({ judul }) {
       <nav>
         <Link to="/">Daftar Mahasiswa</Link>
         {" | "}
+        <Link to="/profil">Profil</Link>
+        {" | "}
         <Link to="/tentang">Tentang</Link>
       </nav>
     </header>

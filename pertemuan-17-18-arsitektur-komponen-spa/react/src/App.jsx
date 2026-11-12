@@ -8,7 +8,9 @@ import "./App.css";
 import PageHeader from "./components/PageHeader";
 import SearchBar from "./components/SearchBar";
 import MahasiswaList from "./components/MahasiswaList";
+import Profil from "./components/Profil";
 import Tentang from "./components/Tentang";
+import Footer from "./components/Footer";
 
 const DATA_MAHASISWA = [
   { id: 1, nama: "Andi", nim: "2024001" },
@@ -37,8 +39,13 @@ function App() {
       <PageHeader judul="Daftar Mahasiswa" />
       <Routes>
         <Route path="/" element={<DaftarMahasiswaPage />} />
+        <Route
+          path="/profil"
+          element={<Profil nama="Gregory" npm="2327240045" />}
+        />
         <Route path="/tentang" element={<Tentang />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
