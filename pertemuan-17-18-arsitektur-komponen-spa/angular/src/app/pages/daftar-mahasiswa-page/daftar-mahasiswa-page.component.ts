@@ -1,5 +1,4 @@
 // Mini Project - Pertemuan 17-18: Halaman daftar mahasiswa
-// TODO 4: lengkapi state & susun component tree DaftarMahasiswaPage -> SearchBar, MahasiswaList.
 
 import { Component } from '@angular/core';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
@@ -21,9 +20,12 @@ const DATA_MAHASISWA: Mahasiswa[] = [
 export class DaftarMahasiswaPageComponent {
   keyword = '';
 
-  // TODO: buat getter mahasiswaTersaring() yang mengembalikan Mahasiswa[]
-  // dengan memfilter DATA_MAHASISWA berdasarkan apakah
-  // m.nama.toLowerCase() mengandung this.keyword.toLowerCase()
+  get mahasiswaTersaring(): Mahasiswa[] {
+    const keyword = this.keyword.toLowerCase();
+    return DATA_MAHASISWA.filter((m) =>
+      m.nama.toLowerCase().includes(keyword)
+    );
+  }
 
   onSearch(keyword: string) {
     this.keyword = keyword;
